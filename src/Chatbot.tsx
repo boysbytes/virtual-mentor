@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { sendMessage } from './gemini';
+
 
 type Message = {
   text: string;
@@ -26,8 +26,20 @@ const Chatbot: React.FC = () => {
       setInput('');
       setThinking(true);
       try {
-        const botResponse = await sendMessage(input);
-        setMessages([...newMessages, { text: botResponse, sender: 'bot' }]);
+        const response = await fetch('/api/gemini', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: input }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setMessages([...newMessages, { text: data.text, sender: 'bot' }]);
       } catch (error) {
         console.error('Error sending message:', error);
         setMessages([...newMessages, { text: 'Sorry, something went wrong.', sender: 'bot' }]);
