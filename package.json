@@ -2,6 +2,7 @@
   "name": "virtual-mentor",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@testing-library/dom": "^10.4.0",
