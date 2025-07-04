@@ -2,10 +2,10 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
+const API_KEY = process.env.GEMINI_API_KEY;
 
 if (!API_KEY) {
-  throw new Error('REACT_APP_GEMINI_API_KEY is not set');
+  throw new Error('GEMINI_API_KEY is not set');
 }
 
 const genAI = new GoogleGenerativeAI(API_KEY);

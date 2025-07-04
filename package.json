@@ -2,7 +2,6 @@
   "name": "virtual-mentor",
   "version": "0.1.0",
   "private": true,
-  
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@testing-library/dom": "^10.4.0",
@@ -47,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@vercel/node": "^5.3.2",
     "gh-pages": "^6.3.0"
   }
 }
