@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/virtual-mentor/static/css/main.56cae86f.css",
+    "main.js": "/virtual-mentor/static/js/main.1b572749.js",
+    "static/js/453.54058d85.chunk.js": "/virtual-mentor/static/js/453.54058d85.chunk.js",
+    "index.html": "/virtual-mentor/index.html",
+    "main.56cae86f.css.map": "/virtual-mentor/static/css/main.56cae86f.css.map",
+    "main.1b572749.js.map": "/virtual-mentor/static/js/main.1b572749.js.map",
+    "453.54058d85.chunk.js.map": "/virtual-mentor/static/js/453.54058d85.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.56cae86f.css",
+    "static/js/main.1b572749.js"
+  ]
+}
