@@ -14,7 +14,7 @@ const Chatbot: React.FC = () => {
   useEffect(() => {
     // Add the initial bot message when the component mounts
     setMessages([
-      { text: 'Hello! I am your virtual mentor. I am here to help you design a human-centric heartbeat monitoring solution. To get started, tell me a little bit about your project and what you hope to achieve.', sender: 'bot' }
+      { text: 'Hello! I am your virtual mentor. I am here to help you design a human-centric heartbeat monitoring solution. To get started, tell me a little bit about the people you imagine using your creation.', sender: 'bot' }
     ]);
   }, []);
 
