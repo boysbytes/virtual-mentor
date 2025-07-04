@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { sendMessage } from './gemini';
 
+type Message = {
+  text: string;
+  sender: 'user' | 'bot';
+};
+
 const Chatbot: React.FC = () => {
-  const [messages, setMessages] = useState<{ text: string; sender: 'user' | 'bot' }[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [thinking, setThinking] = useState(false);
 
@@ -15,7 +20,8 @@ const Chatbot: React.FC = () => {
 
   const handleSend = async () => {
     if (input.trim()) {
-      const newMessages = [...messages, { text: input, sender: 'user' }];
+      const userMessage: Message = { text: input, sender: 'user' };
+      const newMessages = [...messages, userMessage];
       setMessages(newMessages);
       setInput('');
       setThinking(true);
