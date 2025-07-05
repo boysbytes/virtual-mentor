@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
 
 type Message = {
   text: string;
@@ -10,6 +9,15 @@ const Chatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [thinking, setThinking] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, thinking]);
 
   useEffect(() => {
     // Add the initial bot message when the component mounts
@@ -50,36 +58,39 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="card">
-        <div className="card-header">Virtual Mentor</div>
-        <div className="card-body" style={{ height: '400px', overflowY: 'auto' }}>
-          {messages.map((msg, index) => (
-            <div key={index} className={`d-flex justify-content-${msg.sender === 'user' ? 'end' : 'start'}`}>
-              <div className={`alert ${msg.sender === 'user' ? 'alert-primary' : 'alert-secondary'}`}>
-                {msg.text}
+    <div className="chatbot-container">
+      <div className="chatbot-header">
+        <h2>Virtual Mentor</h2>
+      </div>
+      <div className="chatbot-messages">
+        {messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.sender}`}>
+            <div className="message-bubble">{msg.text}</div>
+          </div>
+        ))}
+        {thinking && (
+          <div className="message bot">
+            <div className="message-bubble">
+              <div className="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
               </div>
             </div>
-          ))}
-          {thinking && (
-            <div className="d-flex justify-content-start">
-              <div className="alert alert-secondary">Thinking...</div>
-            </div>
-          )}
-        </div>
-        <div className="card-footer">
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-              disabled={thinking}
-            />
-            <button className="btn btn-primary" onClick={handleSend} disabled={thinking}>Send</button>
           </div>
-        </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+      <div className="chatbot-input">
+        <input
+          type="text"
+          placeholder="Type your message..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+          disabled={thinking}
+        />
+        <button onClick={handleSend} disabled={thinking}>Send</button>
       </div>
     </div>
   );
