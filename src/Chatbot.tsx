@@ -10,20 +10,29 @@ const Chatbot: React.FC = () => {
   const [input, setInput] = useState('');
   const [thinking, setThinking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+
   useEffect(() => {
     scrollToBottom();
+    if (!thinking) {
+      focusInput();
+    }
   }, [messages, thinking]);
 
   useEffect(() => {
     // Add the initial bot message when the component mounts
     setMessages([
-      { text: 'Hello! I am your virtual mentor. I am here to help you design a human-centric heartbeat monitoring solution. To get started, tell me a little bit about the people you imagine using your creation.', sender: 'bot' }
+      { text: 'Hello! I\'m your virtual mentor, here to help you design a human-centered heartbeat monitoring solution. To get started, tell me a little bit about the people you imagine using your creation.', sender: 'bot' }
     ]);
+    focusInput();
   }, []);
 
   const handleSend = async () => {
@@ -83,6 +92,7 @@ const Chatbot: React.FC = () => {
       </div>
       <div className="chatbot-input">
         <input
+          ref={inputRef}
           type="text"
           placeholder="Type your message..."
           value={input}
@@ -97,3 +107,4 @@ const Chatbot: React.FC = () => {
 };
 
 export default Chatbot;
+
