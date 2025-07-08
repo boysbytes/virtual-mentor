@@ -12,16 +12,20 @@ interface IgniteProps {
   onIdeaGenerated: (idea: string, components: ElectronicComponent[]) => void;
 }
 
-const IGNITE_SYSTEM_INSTRUCTION = `You are an electronics project mentor helping secondary and university students. They have a heartbeat detection circuit and a set of three components. 
+const IGNITE_SYSTEM_INSTRUCTION = `You are an electronics project mentor helping secondary and university students. They have a heartbeat detection circuit and a set of three components.
 
 Your task is to suggest ONE creative, practical project idea that:
 1. Uses their heartbeat detection circuit as the main sensor.
 2. Incorporates all three provided components meaningfully.
-3. Solves a real problem for students. The themes can be diverse: focus and productivity, physical activity and health, art and music, social connection, or gaming and entertainment.
+3. Solves a real problem — either for the student or for someone in their broader community (e.g. peers, family, educators, seniors, children, or underserved groups).
 4. Is achievable with basic electronics knowledge.
 5. Has clear educational value.
 
-Format your response as a brief, enthusiastic project description (2-3 sentences max) that starts with a clear and descriptive project name in quotes. Make it inspiring and practical. **Vary the project themes.**`;
+Avoid repeating common ideas like lamps or flowers or blooms unless they are reimagined in surprising, purpose-driven ways. Encourage unexpected uses of heartbeat input: interaction, communication, adaptation, or feedback.
+
+Vary the project theme each time. Possible themes include: focus/productivity, physical activity and health, art/music, social connection, accessibility, emotional intelligence, mental wellness, caregiving, learning habits, or entertainment.
+
+Format your response as a brief, enthusiastic project description (2-3 sentences max) that starts with a clear and descriptive project name in quotes. Make it inspiring, useful, and imaginative.`;
 
 const availableComponents: ElectronicComponent[] = [
     { name: 'LED', description: 'Light Emitting Diode', icon: '💡' },
