@@ -1,0 +1,122 @@
+/* src/styles/Terminal.css */
+
+/* Base styles to mimic a CRT screen */
+body {
+  background-color: #000;
+  color: #00ff41;
+  font-family: 'Courier New', Courier, monospace;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+}
+
+/* Main container for the terminal app */
+.terminal-app {
+  min-height: 100vh;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  background-color: black;
+}
+
+/* CRT Effect Overlay Container */
+.crt-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Horizontal scanlines effect */
+.crt-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 0, 0.08) 2px, rgba(0, 255, 0, 0.08) 4px);
+  animation: scanlines 0.1s linear infinite;
+}
+
+/* Moving vertical scanline effect */
+.crt-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 255, 0, 0.3) 50%, transparent 100%);
+  height: 3px;
+  animation: movingScanline 2s linear infinite;
+}
+
+/* Flicker effect */
+.flicker-effect {
+  position: absolute;
+  inset: 0;
+  background-color: #00ff41;
+  opacity: 0.05;
+  animation: pulse 0.15s infinite;
+}
+
+/* Vignette effect to darken corners */
+.vignette-effect {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, transparent 70%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+/* General border style with glow */
+.terminal-border {
+  border: 2px solid #00ff41;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5), inset 0 0 10px rgba(0, 255, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 1rem;
+}
+
+/* Terminal button styling */
+.terminal-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #00ff41;
+  background-color: #000;
+  color: #00ff41;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.terminal-button:hover:not(:disabled) {
+  background-color: #00ff41;
+  color: #000;
+}
+
+.terminal-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Blinking cursor effect */
+.cursor {
+  display: inline-block;
+  width: 0.5rem;
+  height: 1rem;
+  background-color: #00ff41;
+  animation: pulse 1s steps(1, end) infinite;
+  margin-left: 0.25rem;
+}
+
+/* Animations */
+@keyframes scanlines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+@keyframes movingScanline {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+/* Re-using the built-in App.css pulse animation for simplicity */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
