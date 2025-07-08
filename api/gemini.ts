@@ -40,17 +40,19 @@ export default async function handler(
   }
 
   try {
+    const historyForChat = conversationHistory.slice(0, -1);
+    const lastMessage = conversationHistory[conversationHistory.length - 1];
+
     const chat = model.startChat({
       generationConfig,
       safetySettings,
       history: [
         { role: 'user', parts: [{ text: systemInstruction }] },
         { role: 'model', parts: [{ text: "Understood. I will follow these instructions." }] },
-        ...conversationHistory
+        ...historyForChat
       ],
     });
 
-    const lastMessage = conversationHistory.pop();
     const result = await chat.sendMessage(lastMessage.parts[0].text);
     const botResponse = result.response;
     const text = botResponse.text();

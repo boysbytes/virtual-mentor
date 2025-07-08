@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Zap, Brain, ArrowRight } from 'lucide-react';
 import { sendMessageToAI, Message } from '../lib/ai';
 
-interface ElectronicComponent {
+export interface ElectronicComponent {
   name: string;
   description: string;
   icon: string;
 }
 
 interface IgniteProps {
-  onIdeaGenerated: (idea: string) => void;
+  onIdeaGenerated: (idea: string, components: ElectronicComponent[]) => void;
 }
 
 const IGNITE_SYSTEM_INSTRUCTION = `You are an electronics project mentor helping secondary and university students. They have a heartbeat detection circuit and a set of three components. 
@@ -17,11 +17,11 @@ const IGNITE_SYSTEM_INSTRUCTION = `You are an electronics project mentor helping
 Your task is to suggest ONE creative, practical project idea that:
 1. Uses their heartbeat detection circuit as the main sensor.
 2. Incorporates all three provided components meaningfully.
-3. Solves a real problem for students (e.g., health, study habits, social connection).
+3. Solves a real problem for students. The themes can be diverse: focus and productivity, physical activity and health, art and music, social connection, or gaming and entertainment.
 4. Is achievable with basic electronics knowledge.
 5. Has clear educational value.
 
-Format your response as a brief, enthusiastic project description (2-3 sentences max) that starts with a catchy project name in quotes. Make it inspiring and practical. Do not add any other text or pleasantries.`;
+Format your response as a brief, enthusiastic project description (2-3 sentences max) that starts with a clear and descriptive project name in quotes. Make it inspiring and practical. **Vary the project themes.**`;
 
 const availableComponents: ElectronicComponent[] = [
     { name: 'LED', description: 'Light Emitting Diode', icon: '💡' },
@@ -86,32 +86,44 @@ const Ignite: React.FC<IgniteProps> = ({ onIdeaGenerated }) => {
     ];
     setTerminalLines(newLines);
 
-    const componentNames = components.map(c => c.name).join(', ');
-    const userPrompt: Message = {
-      role: 'user',
-      parts: [{ text: `The components are: ${componentNames}.` }]
-    };
+    try {
+      const componentNames = components.map(c => c.name).join(', ');
+      const userPrompt: Message = {
+        role: 'user',
+        parts: [{ text: `The components are: ${componentNames}.` }]
+      };
 
-    const generatedIdea = await sendMessageToAI(IGNITE_SYSTEM_INSTRUCTION, [userPrompt]);
-    setIdea(generatedIdea);
-    
-    newLines = [
-      ...newLines,
-      'AI IDEATION COMPLETE',
-      '================================',
-      `"${generatedIdea}"`,
-      '================================',
-      '',
-      'Press [PROCEED TO HUDDLE] to refine this idea.',
-      ''
-    ];
-    setTerminalLines(newLines);
-    setIsGenerating(false);
+      const generatedIdea = await sendMessageToAI(IGNITE_SYSTEM_INSTRUCTION, [userPrompt]);
+      setIdea(generatedIdea);
+      
+      newLines = [
+        ...newLines,
+        'AI IDEATION COMPLETE',
+        '================================',
+        `"${generatedIdea}"`,
+        '================================',
+        '',
+        'Press [PROCEED TO HUDDLE] to refine this idea.',
+        ''
+      ];
+      setTerminalLines(newLines);
+    } catch (error) {
+      console.error("Error generating idea:", error);
+      const errorLines = [
+        ...newLines,
+        'ERROR: AI ideation network unavailable.',
+        'Please check the console for details or try again.',
+        ''
+      ];
+      setTerminalLines(errorLines);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleProceed = () => {
     if (idea) {
-      onIdeaGenerated(idea);
+      onIdeaGenerated(idea, components);
     }
   };
 

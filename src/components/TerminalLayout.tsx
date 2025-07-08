@@ -5,9 +5,10 @@ type Stage = 'Ignite' | 'Huddle' | 'Build';
 interface TerminalLayoutProps {
   children: React.ReactNode;
   currentStage: Stage;
+  onRestart: () => void;
 }
 
-const TerminalLayout: React.FC<TerminalLayoutProps> = ({ children, currentStage }) => {
+const TerminalLayout: React.FC<TerminalLayoutProps> = ({ children, currentStage, onRestart }) => {
   const [currentTime, setCurrentTime] = React.useState(new Date());
 
   React.useEffect(() => {
@@ -33,12 +34,12 @@ const TerminalLayout: React.FC<TerminalLayoutProps> = ({ children, currentStage 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>VIRTUAL MENTOR OS</span>
             </div>
-            <div style={{ fontSize: '0.875rem' }}>
-              {currentTime.toLocaleTimeString()}
-            </div>
+            <button onClick={onRestart} className="terminal-button" style={{ padding: '0.25rem 0.5rem', fontSize: '0.8rem' }}>
+              NEW SESSION
+            </button>
           </div>
           <div style={{ fontSize: '0.875rem', opacity: 0.75 }}>
-            System: Online | Status: Ready
+            System: Online | Status: Ready | Time: {currentTime.toLocaleTimeString()}
           </div>
         </div>
 
